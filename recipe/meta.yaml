@@ -1,21 +1,24 @@
+{% set name = "databroker-browser" %}
 {% set version = "0.2.0" %}
+{% set sha256 = "cc8142a424bcbcf8f7fe873418ae44502953bcf3507cd7e4582c7229d2740af2" %}
 
 package:
-  name: databroker-browser
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://github.com/NSLS-II/databroker-browser/archive/v{{ version }}.tar.gz
-  fn: databroker-browser-v{{ version }}.tar.gz
+  url: https://github.com/NSLS-II/{{ name }}/archive/v{{ version }}.tar.gz
+  sha256: {{ sha256 }}
 
 build:
+  noarch: python
   number: 0
-  script: python setup.py install --single-version-externally-managed --record=record.txt
+  script: "{{ PYTHON }} -m pip install . --no-deps -v"
 
 requirements:
-  build:
+  host:
+    - pip
     - python
-    - setuptools
     - six
 
   run:
@@ -30,4 +33,5 @@ test:
 about:
   home: https://github.com/NSLS-II/databroker-browser
   license: BSD 3-Clause
+  license_file: LICENSE
   summary: A read-only dottable dictionary
